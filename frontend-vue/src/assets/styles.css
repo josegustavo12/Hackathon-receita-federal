@@ -1,0 +1,32 @@
+/* 
+  Estilização global do projeto
+  Definição da paleta de cores do projeto
+*/
+
+:root {
+  --main-color: #00205b;
+  --sec-color: #64A70B;
+  --main-hover: rgba(0, 32, 91, 0.8);
+}
+
+/* 
+  Essa estilização padrão estava atrapalhando o design quando utilizava links.
+*/
+
+a {
+  text-decoration: none;
+}
+
+a.router-link-active {
+  color: inherit;
+}
+
+.form-control:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.form-select:focus {
+  box-shadow: none;
+  outline: none;
+}
