@@ -1,6 +1,8 @@
 import json
 from fastapi import HTTPException
 import hashlib
+from pydantic import EmailStr, ValidationError
+
 
 class UsuarioService:
     def __init__(self):
@@ -16,21 +18,27 @@ class UsuarioService:
             json.dump(db, arquivo, indent=4)
 
     @staticmethod
-    def criarUsuario(db: dict, Username: str, Senha: str, Tipo: str):
+    def criarUsuario(db: dict, request: dict):
         
-        if Username in db:
+
+        email = request["Email"]
+        Senha = request["Senha"]
+        Tipo = request["Tipo"]
+
+        if email in db:
             raise HTTPException(status_code=400, detail="Usuário já existe")
         
         hashSenha = UsuarioService.hash_senha(Senha)
 
         try:
 
-            db[Username] = {"hashSenha" : hashSenha, "Tipo" : Tipo}
+            db[email] = {"Senha" : hashSenha,
+                         "Tipo" : Tipo}
             UsuarioService.salvar_usuarios(db)
 
         except Exception as e:
             return{
-                "error" : str(e),
+                "error" : str(e.json(indent=2)),
                 "local" : "UsuarioService"
             }
     
@@ -52,6 +60,7 @@ class UsuarioService:
             )
 
         return {"mensagem": "Senha correta"}
+
 
             
 
