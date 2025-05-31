@@ -3,9 +3,11 @@ from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 
 # módulos
-from backend.features.usuario.usuario_router import router as usuario_router
+from backend.features.usuario.usuario_router import router_private as router_usuario_private
+from backend.features.usuario.usuario_router import router_public as router_usuario_public
 from backend.features.autenticacao.security import Security    
-from backend.features.inventario.inventario_router import router as inventario_router
+from backend.features.inventario.inventario_router import router_private as router_inventario_private
+from backend.features.inventario.inventario_router import router_public as router_inventario_public
 from backend.features.projetos.projetos_router import router as projetos_router
 
 app = FastAPI()
@@ -19,11 +21,13 @@ app.add_middleware(
 )
 
 # rota publica
-public_routers = []
-app.include_router(usuario_router, prefix="/api")
+public_routers = [router_usuario_public, router_inventario_public]
+
+for router in public_routers:
+    app.include_router(router, prefix="/api")
 
 # rota protegida ()
-protected_routers = [inventario_router, projetos_router] 
+protected_routers = [router_inventario_private, projetos_router, router_usuario_private] 
 
 for router in protected_routers:
     app.include_router(
