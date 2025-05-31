@@ -6,10 +6,11 @@ from fastapi.security import OAuth2PasswordRequestForm
 import json
 
 DB_USUARIO = "features/usuario/usuarioBD.json"
-router = APIRouter()
+router_private = APIRouter()
+router_public = APIRouter()
 
 
-@router.post("/usuario/login", tags=["Login"])
+@router_public.post("/usuario/login", tags=["Login"])
 async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     try:
         with open(DB_USUARIO, "r") as f:
@@ -44,7 +45,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     }
 
 
-@router.post("/usuario/newuser", tags=["Login"])
+@router_private.post("/usuario/newuser", tags=["Login"])
 async def new_user(usuario: UsuarioRequest):
     try:
         with open(DB_USUARIO, "r") as f:
@@ -66,10 +67,10 @@ async def new_user(usuario: UsuarioRequest):
             detail=f"Erro interno ao criar usuário: {str(e)}"
         )
 
-@router.delete("/usuario/{email}", tags=["Login"])
+@router_private.delete("/usuario/{email}", tags=["Login"])
 async def deletar_usuario(email: str):
     return UsuarioService.deletarUsuario(email)
 
-@router.get("/usuario/listaruser", tags=["Login"])
+@router_private.get("/usuario/listaruser", tags=["Login"])
 async def Listar():
     return UsuarioService.listarUsuarios()

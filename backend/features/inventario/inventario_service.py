@@ -2,7 +2,7 @@ import os
 import json
 from typing import List, Optional
 from uuid import uuid4
-from features.inventario.inventarioBD import InventarioRequest
+from backend.features.inventario.inventarioBD import InventarioRequest
 
 
 class InventarioService:
