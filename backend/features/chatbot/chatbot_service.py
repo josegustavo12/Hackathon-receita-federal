@@ -1,5 +1,6 @@
 import google.generativeai as genai
 
+
 class ChatbotService:
     def __init__(self, max_length=2000):
         genai.configure(api_key="AIzaSyDo4b4jx421-CvM9m8uZNTKLgNKqss9f4g")
