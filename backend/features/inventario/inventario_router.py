@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException
 from typing import List
 
-from .inventarioBD import InventarioRequest
-from . import inventario_service as service
+from backend.features.inventario.inventarioBD import InventarioRequest
+from backend.features.inventario.inventario_service import InventarioService as service
 
 router = APIRouter(
     prefix="/inventario",
