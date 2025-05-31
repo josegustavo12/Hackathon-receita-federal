@@ -1,8 +1,8 @@
 <template>
-  <div
+  <main
     class="card botao text-white p-3 d-flex flex-column justify-content-between"
     @click="handleClick"
-    style="cursor: pointer; width: 100%; max-width: 270px; height: 300px;"
+    style="cursor: pointer; width: 100%; height: 300px;"
     >
 
     <div v-if="type === 'componente'">
@@ -26,7 +26,7 @@
         <small>{{ author }}<br />{{ date }}</small>
       </p>
     </div>
-  </div>
+  </main>
 </template>
 
 <script setup>
@@ -50,22 +50,9 @@ function handleClick() {
 </script>
 
 <style scoped>
-.botao {
-  background-color: #00205b;
-  color: #fff;
-  border: 1px solid #00205b;
-  transition: background-color 0.2s ease;
-  border-radius: 16px;
-}
-
-.botao:hover {
-  background-color: rgba(0, 32, 91, 0.8);
-  border-color: rgba(0, 32, 91, 0.8);
-}
-
-.placeholder-img {
-  background-color: #ccc;
-  height: 120px;
-  border-radius: 8px;
-}
+  .placeholder-img {
+    background-color: #ccc;
+    height: 120px;
+    border-radius: 8px;
+  }
 </style>

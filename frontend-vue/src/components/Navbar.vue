@@ -2,7 +2,9 @@
   <main>
     <div id="navbar" class="py-3">
       <div class="container d-flex justify-content-between align-items-center">
-        <p>logo</p>
+        <router-link to="/">
+        <img alt="logo do site" src="../assets/logo.png" style="width: 120px;">
+        </router-link>
 
         <div class="d-inline align-items-center">
           <router-link to="/tutorial" class="text-decoration-none fonte">
@@ -28,22 +30,7 @@
   #navbar {
     background-color: var(--sec-color);
     height: 75px;
-    border: 1px solid black;
-  }
-
-  .botao {
-    background-color: var(--main-color);
-    color:#fff;
-    border: 1px solid var(--main-color);
-  }
-
-  .botao:hover,
-  .botao:active {
-    background-color: var(--main-hover) !important;
-    color: #fff;
-    outline: none;
-    box-shadow: none;
-    border: 1px solid var(--main-hover) !important;
+    border-bottom: 1px solid black;
   }
 
   .navbar {

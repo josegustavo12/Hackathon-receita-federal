@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="container">
     <!-- Filtro e Pesquisa -->
-    <div class="container py-3">
+    <div class="my-4">
       <div class="row align-items-center g-2">
         <!-- Campo de pesquisa (8 colunas) -->
         <div class="col-md-8">
@@ -34,8 +34,8 @@
     </div>
 
     <!-- Cards -->
-    <div class="container py-4 bg-white">
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+    <div>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
         <div
           class="col d-flex justify-content-center"
           v-for="(item, index) in filteredCards"
@@ -158,4 +158,3 @@ function closeModal() {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 }
 </style>
-
