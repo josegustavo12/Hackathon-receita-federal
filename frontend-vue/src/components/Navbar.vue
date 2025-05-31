@@ -37,10 +37,13 @@
     border: 1px solid var(--main-color);
   }
 
-  .botao:hover {
-    background-color: var(--main-hover);
+  .botao:hover,
+  .botao:active {
+    background-color: var(--main-hover) !important;
     color: #fff;
-    border: 1px solid var(--main-hover);
+    outline: none;
+    box-shadow: none;
+    border: 1px solid var(--main-hover) !important;
   }
 
   .navbar {
