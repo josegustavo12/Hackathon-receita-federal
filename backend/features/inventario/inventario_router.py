@@ -47,7 +47,19 @@ def obter_info_tecnica(item_id: str):
 
 @router_private.post("/", response_model=InventarioRequest) 
 def criar_item(item: InventarioInput):
-    novo_item = service.criar_item(item.Nome, item.Tipo, item.Marca, item.Modelo, item.Quantidade)
+    novo_item = service.criar_item(
+        item.Nome,
+        item.Tipo,
+        item.Marca,
+        item.Modelo,
+        item.Quantidade,
+        item.Bateria,
+        item.Coil,
+        item.Reservatorio,
+        item.Sensores,
+        item.Circuito,
+        item.Outros,
+    )
     return novo_item
 
 @router_public.get("/", response_model=List[InventarioRequest])
