@@ -40,6 +40,26 @@
               class="dropdown-menu dropdown-menu-end"
               aria-labelledby="dropdownGerenciarConta"
             >
+
+              <li>
+                <button class="dropdown-item" @click="openProjectModal">
+                  <i class="fa-solid fa-user me-2"></i>
+                  Gerenciar conta
+                </button>
+              </li>
+              <li>
+                <button class="dropdown-item" @click="openProjectModal">
+                  <i class="fa-solid fa-truck-fast me-2"></i>
+                  Fazer pedido
+                </button>
+              </li>
+              <li>
+                <button class="dropdown-item" @click="openProjectModal">
+                  <i class="fa-solid fa-clipboard me-2"></i>
+                  Gerenciar pedidos
+                </button>
+              </li>
+
               <!-- Item que abre o modal de Adicionar Projeto -->
               <li>
                 <button class="dropdown-item" @click="openProjectModal">
@@ -48,7 +68,7 @@
                 </button>
               </li>
               <li><hr class="dropdown-divider"></li>
-              <li style="border-top: 1px solid gray">
+              <li>
                 <button class="dropdown-item" @click="fazerLogout" style="color: red">
                   <i class="fa-solid fa-sign-out"></i>
                   Sair

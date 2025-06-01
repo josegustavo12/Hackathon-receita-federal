@@ -47,47 +47,54 @@
 
         <img src="@/assets/passo-a-passo.png" alt="passo a passo" class="imagem-apos-feature"  />
     </div>
-    <div class="galeria">
-      <div class="container py-5">
-        <h2 class="text-center text-white mb-5">Projetos</h2>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+<div class="galeria">
+  <div class="container py-5">
+    <h2 class="text-center text-white mb-5">Projetos</h2>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
 
-          <!-- Card 1 -->
-          <div class="col">
-            <div class="card h-100 shadow">
-              <img src="@/assets/carousel-one.png" class="card-img-top card-img-fixa" alt="Reparo eletrônico em placa">
-              <div class="card-body">
-                <h5 class="card-title fw-bold">Manutenção Técnica</h5>
-                <p class="card-text">Técnico utilizando ferramentas de precisão para manutenção de uma placa eletrônica.</p>
-              </div>
-            </div>
+      <!-- Card 1 -->
+      <div class="col">
+        <div class="card h-100 shadow">
+          <img src="@/assets/carousel-one.png" class="card-img-top card-img-fixa" alt="Robô educativo montado com sucata eletrônica">
+          <div class="card-body">
+            <h5 class="card-title fw-bold">Robótica com Sucata</h5>
+            <p class="card-text">
+              Desenvolvimento de robôs educacionais usando componentes reaproveitados de placas eletrônicas.
+            </p>
           </div>
-
-          <!-- Card 2 -->
-          <div class="col">
-            <div class="card h-100 shadow">
-              <img src="@/assets/carousel-two.png" class="card-img-top card-img-fixa" alt="Imagem de eletrônicos">
-              <div class="card-body">
-                <h5 class="card-title fw-bold">Aparelhos Apreendidos</h5>
-                <p class="card-text">Exemplos de materiais destinados à reutilização educacional e técnica.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 3 -->
-          <div class="col">
-            <div class="card h-100 shadow">
-              <img src="@/assets/carousel-three.png" class="card-img-top card-img-fixa" alt="Outro exemplo">
-              <div class="card-body">
-                <h5 class="card-title fw-bold">Transformação</h5>
-                <p class="card-text">Cada componente pode ganhar novo uso em projetos pedagógicos.</p>
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
+
+      <!-- Card 2 -->
+      <div class="col">
+        <div class="card h-100 shadow">
+          <img src="@/assets/carousel-two.png" class="card-img-top card-img-fixa" alt="Estação de energia solar montada com baterias reaproveitadas">
+          <div class="card-body">
+            <h5 class="card-title fw-bold">Estação Solar Comunitária</h5>
+            <p class="card-text">
+              Implantação de mini‐usina solar usando baterias e painéis recuperados de eletrônicos.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="col">
+        <div class="card h-100 shadow">
+          <img src="@/assets/carousel-three.png" class="card-img-top card-img-fixa" alt="Oficina de montagem de protótipos de circuito">
+          <div class="card-body">
+            <h5 class="card-title fw-bold">Oficina de Circuitos</h5>
+            <p class="card-text">
+              Aulas práticas de montagem de protótipos de circuitos eletrônicos com peças reaproveitadas.
+            </p>
+          </div>
+        </div>
+      </div>
+
     </div>
+  </div>
+</div>
+
 
 
     <div class="conclu">
