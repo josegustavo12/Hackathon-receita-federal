@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from uuid import uuid4
+import datetime
 
 class ProjetoRequest(BaseModel):
     Id: str
@@ -9,10 +10,10 @@ class ProjetoRequest(BaseModel):
     NivelEscolaridade: str
     Manual: str
     Autor: str
-    Data: str
+    Data = datetime.date.today().isoformat()
 
     @classmethod
-    def criar_com_dados(cls, nome: str, resumo: str, componentes: str, escolaridade: str, manual: str, autor: str, Data: str):
+    def criar_com_dados(cls, nome: str, resumo: str, componentes: str, escolaridade: str, manual: str, autor: str):
         return cls(
             Id=uuid4().hex,
             Nome=nome,
@@ -20,6 +21,5 @@ class ProjetoRequest(BaseModel):
             ComponentesNecessarios=componentes,
             NivelEscolaridade=escolaridade,
             Manual=manual,
-            Autor=autor,
-            Data=Data
+            Autor=autor
         )

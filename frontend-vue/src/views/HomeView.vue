@@ -48,8 +48,48 @@
         <img src="@/assets/passo-a-passo.png" alt="passo a passo" class="imagem-apos-feature"  />
     </div>
     <div class="galeria">
-      GALERIAAAAAAAAAAAAAAAAA
+      <div class="container py-5">
+        <h2 class="text-center text-white mb-5">Projetos</h2>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+
+          <!-- Card 1 -->
+          <div class="col">
+            <div class="card h-100 shadow">
+              <img src="@/assets/carousel-one.png" class="card-img-top card-img-fixa" alt="Reparo eletrônico em placa">
+              <div class="card-body">
+                <h5 class="card-title fw-bold">Manutenção Técnica</h5>
+                <p class="card-text">Técnico utilizando ferramentas de precisão para manutenção de uma placa eletrônica.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="col">
+            <div class="card h-100 shadow">
+              <img src="@/assets/carousel-two.png" class="card-img-top card-img-fixa" alt="Imagem de eletrônicos">
+              <div class="card-body">
+                <h5 class="card-title fw-bold">Aparelhos Apreendidos</h5>
+                <p class="card-text">Exemplos de materiais destinados à reutilização educacional e técnica.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="col">
+            <div class="card h-100 shadow">
+              <img src="@/assets/carousel-three.png" class="card-img-top card-img-fixa" alt="Outro exemplo">
+              <div class="card-body">
+                <h5 class="card-title fw-bold">Transformação</h5>
+                <p class="card-text">Cada componente pode ganhar novo uso em projetos pedagógicos.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
     </div>
+
+
     <div class="conclu">
        <h2 class="mb-4">RECAP: Reutilize, Eduque, Inove</h2>
        <p class="fs-4 mb-5" style="text-align: justify;">Cada componente reaproveitado é uma chance a mais de transformar vidas por meio da educação e da inovação. Contribuir com o nosso banco de soluções significa apoiar um futuro mais sustentável, criativo e inclusivo.
@@ -70,6 +110,12 @@ Participe, compartilhe suas ideias e faça parte dessa rede que transforma eletr
 
 
 <style>
+  .card-img-fixa {
+  height: 400px;
+  object-fit: cover;
+  object-position: center;
+}
+
   .bloco {
     background-image: url('@/assets/landing-page-bg.png');
     background-size: cover;          
@@ -211,6 +257,15 @@ footer{
   margin: 0 auto;
   max-width: 1200px;
   padding: 30px 15px;
+}
+
+.featuresg {
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+  padding: 30px;
+  background:#00205B;
+  text-align: center;
 }
 
 .feature {

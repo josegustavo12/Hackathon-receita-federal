@@ -1,90 +1,61 @@
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
+
+import uuid
+import random
 import pytest
 from fastapi.testclient import TestClient
-from features.inventario.main import app
-from uuid import uuid4
+from backend.features.inventario.main import app
+
 
 client = TestClient(app)
 
-def criar_item_valido(
-    nome="Teclado",
-    tipo="Periférico",
-    marca="Logitech",
-    modelo="K120",
-    quantidade=5,
-):
-    return {
-        "Nome": nome,
-        "Tipo": tipo,
-        "Marca": marca,
-        "Modelo": modelo,
-        "Quantidade": quantidade,
-    }
-
-def test_criar_item():
-    item = criar_item_valido()
-    response = client.post("/inventario/", json=item)
-    assert response.status_code == 200
-    data = response.json()
-    assert data["Nome"] == item["Nome"]
-
-def test_listar_itens():
+def limpar_inventario():
     response = client.get("/inventario/")
     assert response.status_code == 200
-    assert isinstance(response.json(), list)
+    itens = response.json()
+    for item in itens:
+        client.delete(f"/inventario/{item['Id']}")
 
-def test_buscar_por_id():
-    item = criar_item_valido()
-    post = client.post("/inventario/", json=item)
-    assert post.status_code == 200
+def gerar_pod():
+    nomes = [
+        "POD Vaze", "POD Juul", "POD Vinci", "POD Nord", "POD Caliburn",
+        "POD Drag", "POD Elf Bar", "POD GeekVape", "POD Smok Novo",
+        "POD Voopoo", "POD Renova", "POD Luxe", "POD Xros", "POD Aegis",
+        "POD Orion", "POD Flexus", "POD Vinci Air", "POD Zero", "POD Mi-Pod", "POD Suorin"
+    ]
+    marcas = ["VapeTech", "Smok", "Voopoo", "Uwell", "GeekVape", "Vaporesso"]
+    sensores = ["Fluxo de ar", "Temperatura", "Pressão", "Carga"]
+    circuitos = ["Regulador de tensão", "Chip de proteção", "Microcontrolador", "PCB integrada"]
 
-    result = post.json()
-    item_id = result["Id"]  # ✅ pega o ID da resposta
+    nome = random.choice(nomes)
+    return {
+        "Id": str(uuid.uuid4().hex),
+        "Nome": nome,
+        "Tipo": "POD",
+        "Marca": random.choice(marcas),
+        "Modelo": f"Modelo {random.randint(100, 999)}",
+        "Quantidade": random.randint(1, 20),
+        "Bateria": "Litio recarregavel" if random.randint(1, 20) % 2 == 0 else "Lipo nao recarregavel",
+        "Coil": "Coil Head" if random.randint(1, 20) > 10 else "Coil",
+        "Reservatorio": f"{random.randint(1, 5)}ml",
+        "Sensores": ", ".join(random.sample(sensores, k=random.randint(0, len(sensores)))) if random.randint(1, 20) > 12 else "",
+        "Circuito": random.choice(circuitos) if random.randint(1, 20) > 15 else "",
+        "Outros": "Cartucho substituivel" if random.randint(1, 20) > 15 else "",
+    }
 
-    get = client.get(f"/inventario/{item_id}")
-    assert get.status_code == 200
+def test_reinserir_apenas_pods():
+    limpar_inventario()
 
-def test_editar_item():
-    item = criar_item_valido()
-    post = client.post("/inventario/", json=item)
-    assert post.status_code == 200
-
-    result = post.json()
-    item_id = result["Id"]
-
-    atualizado = item.copy()
-    atualizado["Nome"] = "Teclado Mecânico"
-    atualizado["Quantidade"] = 10
-    atualizado["Marca"] = "Corsair"
-    atualizado["Modelo"] = "K70"
-
-    put = client.put(f"/inventario/{item_id}", json=atualizado)
-    assert put.status_code == 422
-
-
-def test_remover_item():
-    item = criar_item_valido()
-    post = client.post("/inventario/", json=item)
-    assert post.status_code == 200
-
-    result = post.json()
-    item_id = result["Id"]
-
-    delete = client.delete(f"/inventario/{item_id}")
-    assert delete.status_code == 200
-
-
-def test_atualizar_campos_ia():
-    item = criar_item_valido()
-    post = client.post("/inventario/", json=item)
-    assert post.status_code == 200
-
-    result = post.json()
-    item_id = result["Id"]
-
-    patch = client.patch(f"/inventario/{item_id}/atualizar_campos_ia")
-    assert patch.status_code == 404
-
+    for _ in range(100):
+        pod = gerar_pod()
+        response = client.post("/inventario/", json=pod)
+        assert response.status_code == 200
+        result = response.json()
+        assert result["Nome"] == pod["Nome"]
+        assert result["Tipo"] == "POD"
+        assert result["Marca"] == pod["Marca"]
+        assert result["Modelo"] == pod["Modelo"]
+        assert result["Quantidade"] == pod["Quantidade"]

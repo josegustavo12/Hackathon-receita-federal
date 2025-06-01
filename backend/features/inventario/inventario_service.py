@@ -11,12 +11,10 @@ class InventarioService:
 
     @classmethod
     def ler_banco(cls) -> List[InventarioRequest]:
-        # Se o arquivo não existe, cria com lista vazia
         if not os.path.exists(cls.DB_PATH):
             with open(cls.DB_PATH, 'w') as f:
                 json.dump([], f)
         
-        # Se o arquivo está vazio ou corrompido, sobrescreve com []
         try:
             with open(cls.DB_PATH, 'r') as f:
                 content = f.read().strip()
@@ -37,14 +35,21 @@ class InventarioService:
             json.dump([item.dict() for item in dados], f, indent=4)
 
     @classmethod
-    def criar_item(cls, nome: str, tipo: str, marca: str, modelo: str, quantidade: int) -> InventarioRequest:
+    def criar_item(cls, nome, tipo, marca, modelo, quantidade,
+               bateria="", coil="", reservatorio="", sensores="", circuito="", outros="") -> InventarioRequest:
         novo_item = InventarioRequest(
-            Id=uuid4().hex,
-            Nome=nome,
-            Tipo=tipo,
-            Marca=marca,
-            Modelo=modelo,
-            Quantidade=quantidade
+        Id=uuid4().hex,
+        Nome=nome,
+        Tipo=tipo,
+        Marca=marca,
+        Modelo=modelo,
+        Quantidade=quantidade,
+        Bateria=bateria,
+        Coil=coil,
+        Reservatorio=reservatorio,
+        Sensores=sensores,
+        Circuito=circuito,
+        Outros=outros,
         )
         dados = cls.ler_banco()
         dados.append(novo_item)
