@@ -596,7 +596,6 @@ async function fazerProjeto() {
 
     const novoProjeto = {
       Id: novoId,
-      Data: nowISO,
       Nome: nomeProjeto.value,
       Resumo: resumoProjeto.value,
       ComponentesNecessarios: componentesProjeto.value,
