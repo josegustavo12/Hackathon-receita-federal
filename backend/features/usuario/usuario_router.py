@@ -67,9 +67,9 @@ async def new_user(usuario: UsuarioRequest):
             detail=f"Erro interno ao criar usuário: {str(e)}"
         )
 
-@router_private.delete("/usuario/{email}", tags=["Login"])
-async def deletar_usuario(email: str):
-    return UsuarioService.deletarUsuario(email)
+@router_private.delete("/usuario/{cpf}", tags=["Login"])
+async def deletar_usuario(cpf: str):
+    return UsuarioService.deletarUsuario(cpf)
 
 @router_private.get("/usuario/listaruser", tags=["Login"])
 async def Listar():
