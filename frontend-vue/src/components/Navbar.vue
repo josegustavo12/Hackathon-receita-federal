@@ -40,6 +40,14 @@
               class="dropdown-menu dropdown-menu-end"
               aria-labelledby="dropdownGerenciarConta"
             >
+              <!-- Item que abre o modal de Adicionar Projeto -->
+              <li>
+                <button class="dropdown-item" @click="openProjectModal">
+                  <i class="fa-solid fa-plus me-2"></i>
+                  Adicionar Projeto
+                </button>
+              </li>
+              <li><hr class="dropdown-divider"></li>
               <li style="border-top: 1px solid gray">
                 <button class="dropdown-item" @click="fazerLogout" style="color: red">
                   <i class="fa-solid fa-sign-out"></i>
@@ -212,6 +220,117 @@
         </div>
       </div>
     </div>
+
+    <!-- Modal de Adicionar Projeto -->
+    <div
+      v-if="showProjectModal"
+      class="modal-overlay"
+      @click.self="closeProjectModal"
+    >
+      <div class="project-modal text-start">
+        <div
+          class="modal-header-custom d-flex justify-content-center align-items-center mb-3"
+        >
+          <h5 class="text-white mb-0">Adicionar Projeto</h5>
+        </div>
+
+        <p class="text-muted small mb-3">
+          Preencha as informações abaixo para criar um novo projeto
+        </p>
+
+        <!-- Campos do formulário de projeto -->
+        <div class="mb-3">
+          <label for="nome-projeto" class="form-label fw-semibold">Nome</label>
+          <input
+            id="nome-projeto"
+            v-model="nomeProjeto"
+            type="text"
+            class="form-control"
+            placeholder="Nome do projeto"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="resumo-projeto" class="form-label fw-semibold">Resumo</label>
+          <textarea
+            id="resumo-projeto"
+            v-model="resumoProjeto"
+            class="form-control"
+            rows="2"
+            placeholder="Resumo breve"
+          ></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label for="componentes-projeto" class="form-label fw-semibold">Componentes Necessários</label>
+          <textarea
+            id="componentes-projeto"
+            v-model="componentesProjeto"
+            class="form-control"
+            rows="2"
+            placeholder="Liste os componentes"
+          ></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label for="nivel-projeto" class="form-label fw-semibold">Nível de Escolaridade</label>
+          <input
+            id="nivel-projeto"
+            v-model="nivelProjeto"
+            type="text"
+            class="form-control"
+            placeholder="Ex: Ensino Médio, Fundamental..."
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="manual-projeto" class="form-label fw-semibold">Manual (URL ou texto)</label>
+          <textarea
+            id="manual-projeto"
+            v-model="manualProjeto"
+            class="form-control"
+            rows="2"
+            placeholder="Link ou instruções"
+          ></textarea>
+        </div>
+
+        <div class="mb-4">
+          <label for="autor-projeto" class="form-label fw-semibold">Autor</label>
+          <input
+            id="autor-projeto"
+            v-model="autorProjeto"
+            type="text"
+            class="form-control"
+            placeholder="Nome do autor"
+            autocomplete="off"
+          />
+        </div>
+
+        <!-- Botão Salvar Projeto -->
+        <div class="d-flex justify-content-end mb-3">
+          <button
+            type="button"
+            class="btn botao continuar-btn"
+            @click="fazerProjeto"
+            :disabled="loadingProjeto"
+          >
+            <span v-if="!loadingProjeto">Salvar Projeto</span>
+            <span v-else>Enviando...</span>
+          </button>
+        </div>
+
+        <!-- Mensagem de erro (Projeto) -->
+        <div v-if="erroProjeto" class="alert alert-danger py-2 px-3">
+          {{ erroProjeto }}
+        </div>
+        <!-- Mensagem de sucesso (Projeto) -->
+        <div v-if="sucessoProjeto" class="alert alert-success py-2 px-3">
+          {{ sucessoProjeto }}
+        </div>
+      </div>
+    </div>
   </main>
 </template>
 
@@ -220,17 +339,17 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 
-// --- Controle do modal e estado de login/cadastro ---
+// --- Controle do modal de Login/Cadastro ---
 const showModal = ref(false)
 const isRegisterMode = ref(false) // false = login, true = cadastro
 
-// --- Campos de Login ---
+// Campos de Login
 const cpf = ref('')
 const senha = ref('')
 const loadingLogin = ref(false)
 const erroLogin = ref(null)
 
-// --- Campos de Cadastro (sem mais o campo "tipo") ---
+// Campos de Cadastro
 const cpfCadastro = ref('')
 const emailCadastro = ref('')
 const senhaCadastro = ref('')
@@ -241,6 +360,18 @@ const sucessoCadastro = ref(null)
 // --- Estado de autenticação ---
 const isLoggedIn = ref(false)
 const router = useRouter()
+
+// --- Controle do modal de “Adicionar Projeto” ---
+const showProjectModal = ref(false)
+const nomeProjeto = ref('')
+const resumoProjeto = ref('')
+const componentesProjeto = ref('')
+const nivelProjeto = ref('')
+const manualProjeto = ref('')
+const autorProjeto = ref('')
+const loadingProjeto = ref(false)
+const erroProjeto = ref(null)
+const sucessoProjeto = ref(null)
 
 // Variável para timer de logout automático (1h)
 let logoutTimer = null
@@ -254,7 +385,7 @@ function openModal(mode) {
   limparErros()
 }
 
-// Fecha o modal e limpa campos/erros
+// Fecha o modal de Login/Cadastro
 function closeModal() {
   showModal.value = false
   limparErros()
@@ -265,7 +396,7 @@ function closeModal() {
   senhaCadastro.value = ''
 }
 
-// Limpa mensagens de erro e sucesso de ambos formulários
+// Limpa mensagens de erro e sucesso de Login/Cadastro
 function limparErros() {
   erroLogin.value = null
   erroCadastro.value = null
@@ -277,7 +408,7 @@ function iniciarTimerLogout() {
   clearTimeout(logoutTimer)
   logoutTimer = setTimeout(() => {
     fazerLogout()
-  }, 3_600_000) // 3.600.000 ms = 1h
+  }, 3_600_000) // 1 hora
 }
 
 // Logout: limpa token, estado e redireciona
@@ -345,7 +476,9 @@ async function fazerLogin() {
       }
     }
     else {
+      console.error("Detalhes do erro:", err.message, err.config, err.code)
       erroLogin.value = 'Erro de rede. Verifique sua conexão.'
+
     }
   }
   finally {
@@ -399,6 +532,107 @@ async function fazerCadastro() {
     loadingCadastro.value = false
   }
 }
+
+// ========== ABRIR / FECHAR MODAL DE PROJETO ========== //
+function openProjectModal() {
+  showProjectModal.value = true
+  limparErrosProjeto()
+}
+
+function closeProjectModal() {
+  showProjectModal.value = false
+  limparErrosProjeto()
+  nomeProjeto.value = ''
+  resumoProjeto.value = ''
+  componentesProjeto.value = ''
+  nivelProjeto.value = ''
+  manualProjeto.value = ''
+  autorProjeto.value = ''
+}
+
+function limparErrosProjeto() {
+  erroProjeto.value = null
+  sucessoProjeto.value = null
+}
+
+function gerarUUIDv4() {
+  // gera um uuid no formato xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    const r = (Math.random() * 16) | 0
+    const v = c === 'x' ? r : (r & 0x3) | 0x8
+    return v.toString(16)
+  })
+}
+
+
+// ========== SUBMETER PROJETO ========== //
+async function fazerProjeto() {
+  // Validação básica: todos os campos obrigatórios
+  if (
+    !nomeProjeto.value ||
+    !resumoProjeto.value ||
+    !componentesProjeto.value ||
+    !nivelProjeto.value ||
+    !manualProjeto.value ||
+    !autorProjeto.value
+  ) {
+    erroProjeto.value = 'Preencha todos os campos antes de continuar.'
+    return
+  }
+
+  loadingProjeto.value = true
+  erroProjeto.value = null
+  sucessoProjeto.value = null
+
+  try {
+    const token = localStorage.getItem('access_token')
+    if (!token) {
+      throw new Error('Usuário não autenticado.')
+    }
+
+    // Geração de Id e Data
+    const novoId = gerarUUIDv4()
+    const nowISO = new Date().toISOString()
+
+    const novoProjeto = {
+      Id: novoId,
+      Data: nowISO,
+      Nome: nomeProjeto.value,
+      Resumo: resumoProjeto.value,
+      ComponentesNecessarios: componentesProjeto.value,
+      NivelEscolaridade: nivelProjeto.value,
+      Manual: manualProjeto.value,
+      Autor: autorProjeto.value
+    }
+
+    await axios.post(
+      '/api/projetos/',
+      novoProjeto,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+
+    sucessoProjeto.value = 'Projeto criado com sucesso!'
+    setTimeout(() => {
+      closeProjectModal()
+    }, 1000)
+  }
+  catch (err) {
+    if (err.response) {
+      erroProjeto.value = err.response.data.detail || 'Falha ao criar projeto.'
+    }
+    else {
+      erroProjeto.value = err.message || 'Erro de rede. Verifique sua conexão.'
+    }
+  }
+  finally {
+    loadingProjeto.value = false
+  }
+}
 </script>
 
 <style scoped>
@@ -415,30 +649,36 @@ async function fazerCadastro() {
   .fonte:hover {
     color: #222;
   }
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2000;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
 
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 2000;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-  }
+/* Aplica tanto para login-modal quanto project-modal */
+.login-modal,
+.project-modal {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 500px;
 
-  .login-modal {
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 2rem;
-    width: 100%;
-    max-width: 420px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-    font-family: 'Segoe UI', sans-serif;
-  }
+  /* NOVO: limitar altura e ativar rolagem interna */
+  max-height: 90vh;
+  overflow-y: auto;
+
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  font-family: 'Segoe UI', sans-serif;
+}
 
   .continuar-btn {
     font-weight: bold;
@@ -447,14 +687,12 @@ async function fazerCadastro() {
     font-size: 1rem;
     border: none;
   }
-
+  
   .modal-header-custom {
     background-color: var(--sec-color); /* mesma cor da navbar */
-    height: 75px;
+    padding: 1rem;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    margin: -2rem -2rem 1rem -2rem; /* compensa o padding do modal */
-    padding: 0 1rem;
   }
 
   .modal-logo {
@@ -471,7 +709,6 @@ async function fazerCadastro() {
   .dropdown {
     display: inline-block;
   }
-
   .dropdown-toggle::after {
     margin-left: 0.25rem;
   }
