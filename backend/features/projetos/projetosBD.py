@@ -1,21 +1,20 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from uuid import uuid4
-import datetime
+from datetime import date
 
 class ProjetoRequest(BaseModel):
-    Id: str
+    Id: str = Field(default_factory=lambda: uuid4().hex)
     Nome: str
     Resumo: str
     ComponentesNecessarios: str
     NivelEscolaridade: str
     Manual: str
     Autor: str
-    Data = datetime.date.today().isoformat()
+    Data: str = Field(default_factory=lambda: date.today().isoformat())
 
     @classmethod
     def criar_com_dados(cls, nome: str, resumo: str, componentes: str, escolaridade: str, manual: str, autor: str):
         return cls(
-            Id=uuid4().hex,
             Nome=nome,
             Resumo=resumo,
             ComponentesNecessarios=componentes,
