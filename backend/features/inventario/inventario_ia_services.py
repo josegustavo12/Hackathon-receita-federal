@@ -1,9 +1,14 @@
 import google.generativeai as genai
 import re
 
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
 class ProdutoIAService:
     def __init__(self):
-        genai.configure(api_key="AIzaSyDo4b4jx421-CvM9m8uZNTKLgNKqss9f4g")
+        genai.configure(api_key="API_KEY_GEMINI")
         self.model = genai.GenerativeModel("gemini-1.5-flash")
 
     def consultar_info_tecnica(self, marca: str, modelo: str) -> dict:
