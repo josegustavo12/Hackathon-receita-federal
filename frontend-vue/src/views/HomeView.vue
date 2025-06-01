@@ -7,7 +7,9 @@
             <h1><b>Da apreensão ao reaproveitamento</b></h1>
             <h1><b>— tudo em um só sistema</b></h1>
             <p class="fs-5">Gerencie, catalogue e transforme eletrônicos apreendidos em recursos para educação e inovação</p>
-            <button class="btn botao">Comece aqui!</button>
+            <router-link to="/tutorial">
+              <button class="btn botao">Venha colaborar conosco!</button>
+            </router-link>
           </div>
           </div>
         </div>
@@ -20,35 +22,41 @@
       <p class="fs-4">Mais do que apenas armazenar dados, o sistema promove o uso consciente e sustentável desses materiais, incentivando sua aplicação em projetos educacionais e sociais. As peças reaproveitadas ganham nova vida em aulas práticas de robótica, programação, eletrônica e inovação tecnológica, contribuindo para a formação de estudantes e o fortalecimento de iniciativas pedagógicas.</p>
     </div>
     <div class="estat">
-      <section>
-        <div class="features">
-          <div class="feature">
-            <div class="icon">🗑️</div>
-            <p>O lixo eletrônico é atualmente o tipo de resíduo mais frequentemente apreendido globalmente, representando 1 em cada 6 apreensões de resíduos</p>
+      <section class="container">
+        <div class="features row">
+          <div class="col-12 col-md-6 col-lg-4 mb-4 d-flex justify-content-center">
+            <div class="feature">
+              <div class="icon">🗑️</div>
+              <p>O lixo eletrônico é atualmente o tipo de resíduo mais frequentemente apreendido globalmente, representando 1 em cada 6 apreensões de resíduos</p>
             </div>
-
-          <div class="feature">
-            <div class="icon">♻️</div>
-            <p>Aproximadamente 75% da população não sabe que todos os eletroeletrônicos podem ser reciclados se descartados corretamente</p>
           </div>
-
-          <div class="feature">
-            <div class="icon">📦</div>
-            <p>Em 2024, foram apreendidos mais de 650 mil celulares contrabandeados, avaliados em cerca de R$ 550 milhões</p>
+          <div class="col-12 col-md-6 col-lg-4 mb-4 d-flex justify-content-center">
+            <div class="feature">
+              <div class="icon">♻️</div>
+              <p>Aproximadamente 75% da população não sabe que todos os eletroeletrônicos podem ser reciclados se descartados corretamente</p>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4 mb-4 d-flex justify-content-center">
+            <div class="feature">
+              <div class="icon">📦</div>
+              <p>Em 2024, foram apreendidos mais de 650 mil celulares contrabandeados, avaliados em cerca de R$ 550 milhões</p>
+            </div>
           </div>
         </div>
       </section>
 
-        <img src="@/assets/passo-a-passo.png" alt="passo a passo" class="imagem-apos-feature" />
+        <img src="@/assets/passo-a-passo.png" alt="passo a passo" class="imagem-apos-feature"  />
     </div>
     <div class="galeria">
+      GALERIAAAAAAAAAAAAAAAAA
     </div>
     <div class="conclu">
        <h2 class="mb-4">RECAP: Reutilize, Eduque, Inove</h2>
-       <h4><b>Junte-se a nós nessa missão!</b></h4>
-       <p class="fs-4 mb-5">Cada componente reaproveitado é uma chance a mais de transformar vidas por meio da educação e da inovação. Contribuir com o nosso banco de soluções significa apoiar um futuro mais sustentável, criativo e inclusivo.
+       <p class="fs-4 mb-5" style="text-align: justify;">Cada componente reaproveitado é uma chance a mais de transformar vidas por meio da educação e da inovação. Contribuir com o nosso banco de soluções significa apoiar um futuro mais sustentável, criativo e inclusivo.
 Participe, compartilhe suas ideias e faça parte dessa rede que transforma eletrônicos descartados em oportunidades reais de aprendizado e desenvolvimento. Com o RECAP, seu engajamento ajuda a construir um mundo onde tecnologia e educação caminham juntas para um amanhã melhor.</p>
-       <button class="btn botao" >Venha colaborar com conosco</button>
+      <router-link to="/cards">
+        <button class="btn botao">Faça sua primeira pesquisa!</button>
+      </router-link>
     </div>
     <footer>© 2025 Recap</footer>
   </main>
@@ -200,32 +208,30 @@ footer{
 }
 
 .features {
-  display: flex;
-  justify-content: space-around;
-  gap: 10px;
-  padding: 30px;
-  background: #f9fafb;
-  text-align: center;
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 30px 15px;
 }
 
 .feature {
-  flex: 1;
-  max-width: 300px;
-  padding: 40px;
   background: white;
   border-radius: 8px;
+  padding: 30px 20px;
+  text-align: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  height: 100%;
 }
 
 .icon {
   font-size: 2rem;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .imagem-apos-feature {
   display: block;
   margin: 40px auto;
   max-width: 100%;
+  width: 90%;
   height: auto;
 }
 
