@@ -13,7 +13,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import './assets/styles.css'
 
 // Defina uma baseURL padrão para todas as requisições
-axios.defaults.baseURL = 'localhost:8080' // ajuste conforme necessário
+axios.defaults.baseURL = 'http://127.0.0.1:8000' // ajuste conforme necessário
 
 const app = createApp(App)
 

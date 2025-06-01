@@ -18,14 +18,14 @@
           <button
             class="tab-button flex-fill"
             :class="{ active: selectedTab === 'componente' }"
-            @click="selectedTab = 'componente'"
+            @click="selectTab('componente')"
           >
             Componentes
           </button>
           <button
             class="tab-button flex-fill"
             :class="{ active: selectedTab === 'solucao' }"
-            @click="selectedTab = 'solucao'"
+            @click="selectTab('solucao')"
           >
             Soluções
           </button>
@@ -35,20 +35,24 @@
 
     <!-- Cards -->
     <div>
+      <!-- Se a aba for "solução" e não houver nenhum item, exibimos mensagem -->
+      <template v-if="selectedTab === 'solucao' && solucoes.length === 0">
+        <p class="text-center text-muted">Nenhuma solução encontrada.</p>
+      </template>
+
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
         <div
           class="col d-flex justify-content-center"
           v-for="(item, index) in filteredCards"
           :key="item.Id || index"
         >
-          <!-- Passamos todas as props de item para CardItem -->
           <CardItem
             :type="item.Tipo"
             :title="item.Nome"
             :description="`${item.Marca} ${item.Modelo}`"
+            :resumo="item.Resumo"
+            :author="item.Autor"
             :quantidade="item.Quantidade"
-            :author="item.Author || ''"
-            :date="item.Date || ''"
             @open="openModal(item)"
           />
         </div>
@@ -56,15 +60,28 @@
     </div>
 
     <!-- Modal -->
-    <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
+    <div v-if="showModal && selectedTab === 'componente'" class="modal-overlay" @click.self="closeModal">
       <div class="modal-content p-4 text-white">
-        <h4>{{ modalData.title }}</h4>
+        <h4>{{ modalData.Nome }}</h4>
         <p class="mb-2" style="font-size: 1.1rem">
-          {{ modalData.description }}
+          <b>• Marca:</b> {{ modalData.Marca }}<br />
+          <b>• Modelo:</b> {{ modalData.Modelo }}<br />
+          <b>• Quantidade:</b> {{ modalData.Quantidade }}
         </p>
-        <p v-if="modalData.author">
-          <strong>{{ modalData.author }}</strong><br />
-          <small>{{ modalData.date }}</small>
+        <button class="btn btn-light mt-3" @click="closeModal">
+          Fechar
+        </button>
+      </div>
+    </div>
+
+    <div v-else-if="showModal && selectedTab === 'solucao'" class="modal-overlay" @click.self="closeModal">
+      <div class="modal-content p-4 text-white">
+        <h4>{{ modalData.Nome }}</h4>
+        <p class="mb-2" style="font-size: 1.1rem">
+          <b>• Nível de escolaridade:</b> {{ modalData.NivelEscolaridade }}<br />
+          <b>• Componentes necessários:</b> {{ modalData.ComponentesNecessarios }}<br />
+          <b>• Data:</b> {{ modalData.Data }}<br />
+          <b>• Manual:</b> {{ modalData.Manual }}
         </p>
         <button class="btn btn-light mt-3" @click="closeModal">
           Fechar
@@ -84,76 +101,52 @@ const searchTerm = ref('')
 const showModal = ref(false)
 const modalData = ref({})
 
-// Agora `cards` será preenchido via GET axios
-const cards = ref([])
+// Duas listas separadas, preenchidas por GETs distintos
+const componentes = ref([])
+const solucoes = ref([])
 
-async function fetchCards() {
+// Função para buscar “componentes” (GET /api/inventario/)
+async function fetchComponentes() {
   try {
-    // Requisição GET para /inventario/ (baseURL configurada em main.js)
-    const response = await axios.get('/inventario/')
-    // `response.data` é um array de InventarioRequest
-    // Exemplo de InventarioRequest:
-    // {
-    //   Id: "7025d50ea5254df59821ece43e2b9cdf",
-    //   Nome: "Teclado",
-    //   Tipo: "Periférico",
-    //   Marca: "Logitech",
-    //   Modelo: "K120",
-    //   Quantidade: 5,
-    //   Bateria: "",
-    //   Coil: "",
-    //   Reservatorio: "",
-    //   Sensores: "",
-    //   Circuito: "",
-    //   Outros: "",
-    //   Data: "2025-06-01T14:23:00"
-    // }
-    cards.value = response.data
+    console.log('[fetchComponentes] GET /api/inventario/')
+    const response = await axios.get('/api/inventario/')
+    console.log('[fetchComponentes] resposta componentes:', response.data)
+    componentes.value = response.data
   } catch (err) {
-    console.error('Erro ao buscar itens do inventário:', err)
+    console.error('[fetchComponentes] erro ao buscar componentes:', err)
   }
 }
 
-onMounted(() => {
-  fetchCards()
+// Função para buscar “soluções” (GET /api/projetos/)
+async function fetchSolucoes() {
+  try {
+    console.log('[fetchSolucoes] GET /api/projetos/')
+    const response = await axios.get('/api/projetos/')
+    console.log('[fetchSolucoes] resposta soluções:', response.data)
+    solucoes.value = response.data
+  } catch (err) {
+    console.error('[fetchSolucoes] erro ao buscar soluções:', err)
+  }
+}
+
+// No mounted, chamamos ambas as funções e logo depois mostramos no console
+onMounted(async () => {
+  await fetchComponentes()
+  await fetchSolucoes()
+  console.log('[onMounted] lista de componentes:', componentes.value)
+  console.log('[onMounted] lista de soluções:', solucoes.value)
 })
 
+// Retorna os cards a exibir, filtrando pelo searchTerm
 const filteredCards = computed(() => {
-  // Filtra pelo tipo “componente” ou “solucao” (ajuste conforme seu campo Tipo)
-  // e pelo título (campo Nome)
-  return cards.value
-    .filter((card) => {
-      // Se quiser mapear distintos tipos de abas, você pode usar:
-      // - Aba “componente” => card.Tipo === "Componente"
-      // - Aba “solucao”   => card.Tipo === "Solução"
-      // No exemplo original o Tipo vem como “Periférico”, “Outro”, etc.
-      // Ajuste essa lógica caso queira uma correspondência exata ou coloque 
-      // uma propriedade adicional no backend para designar tipo “componente” 
-      // ou “solucao”.
-      // Aqui, para continuar o exemplo, vamos assumir que:
-      //   Tipo "Componentes" contém a substring "Comp" e 
-      //   Tipo "Soluções" contém a substring "Sol".
-      const typeNormalized = card.Tipo.toLowerCase()
-      const matchesTab =
-        (selectedTab.value === 'componente' &&
-          typeNormalized.includes('comp')) ||
-        (selectedTab.value === 'solucao' &&
-          typeNormalized.includes('sol'))
-      const matchesSearch = card.Nome.toLowerCase().includes(searchTerm.value.toLowerCase())
-      return matchesTab && matchesSearch
-    })
-    .map((card) => {
-      // Mapeia os campos do InventarioRequest para as props que o CardItem espera
-      return {
-        Id: card.Id,
-        type: selectedTab.value,
-        title: card.Nome,
-        description: `${card.Marca} ${card.Modelo}`,
-        quantidade: card.Quantidade,
-        author: card.Author || '', // se não existir, deixa string vazia
-        date: card.Data || '', // se não existir, deixa string vazia
-      }
-    })
+  // Escolhe a lista conforme a aba selecionada
+  const listaBase = selectedTab.value === 'componente' ? componentes.value : solucoes.value
+
+  console.log(`[filteredCards] aba=${selectedTab.value}, base antes do filtro:`, listaBase)
+
+  return listaBase.filter((card) =>
+    (card.Nome || '').toLowerCase().includes(searchTerm.value.toLowerCase())
+  )
 })
 
 function openModal(data) {
@@ -163,6 +156,11 @@ function openModal(data) {
 
 function closeModal() {
   showModal.value = false
+}
+
+function selectTab(tipo) {
+  console.log('[selectTab] aba selecionada:', tipo)
+  selectedTab.value = tipo
 }
 </script>
 

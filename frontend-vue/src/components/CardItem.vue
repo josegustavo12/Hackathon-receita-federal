@@ -1,30 +1,43 @@
 <template>
   <main
-    class="card botao text-white p-3 d-flex flex-column justify-content-between"
+    class="card botao text-white p-3 d-flex flex-column justify-content-between mb-4"
     @click="handleClick"
     style="cursor: pointer; width: 100%; height: 300px;"
-    >
-
-    <div v-if="type === 'componente'">
-      <!-- Imagem simulada -->
-      <div class="placeholder-img mb-3"></div>
-
-      <!-- Título e quantidade -->
-      <div class="d-flex justify-content-between align-items-center">
-        <span>{{ title }}</span>
-        <small>{{ quantidade || '—' }}</small>
+  >
+    <div v-if="quantidade >= 1" class="d-flex flex-column h-100">
+      <!-- Topo: Imagem -->
+      <div class="placeholder-img mb-3">
+        <img src="../assets/logo.png" alt="imagem da logo de exemplo" />
       </div>
 
-      <!-- Descrição centralizada -->
-      <p class="text-center mt-3 fs-5">{{ description }}</p>
+      <!-- Conteúdo: título e subtítulo -->
+      <div class="flex-grow-1">
+        <h5 class="m-0">{{ title }}</h5>
+        <sub class="m-0">{{ description }}</sub>
+      </div>
+
+      <!-- Rodapé: quantidade -->
+      <footer class="mt-auto pt-2">
+        <h6 class="m-0">Quantidade: {{ quantidade }}</h6>
+      </footer>
     </div>
 
-    <div v-else>
-      <h5>{{ title }}</h5>
-      <p>{{ description }}</p>
-      <p>
-        <small>{{ author }}<br />{{ date }}</small>
-      </p>
+    <div v-else class="d-flex flex-column h-100">
+      <!-- Topo: Imagem -->
+      <div class="placeholder-img mb-3">
+        <img src="../assets/logo.png" alt="imagem da logo de exemplo" />
+      </div>
+
+      <!-- Conteúdo: título e subtítulo -->
+      <div class="flex-grow-1">
+        <h5 class="m-0">{{ title }}</h5>
+        <sub class="m-0">{{ resumo }}</sub>
+      </div>
+
+      <!-- Rodapé: quantidade -->
+      <footer class="mt-auto pt-2">
+        <h6 class="m-0">{{ author }}</h6>
+      </footer>
     </div>
   </main>
 </template>
@@ -36,6 +49,7 @@ const props = defineProps({
   author: String,
   date: String,
   quantidade: Number,
+  resumo: String,
   type: {
     type: String,
     default: 'componente',
@@ -51,8 +65,18 @@ function handleClick() {
 
 <style scoped>
   .placeholder-img {
-    background-color: #ccc;
-    height: 120px;
-    border-radius: 8px;
-  }
+  background-color: #ccc;
+  height: 120px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.placeholder-img img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
 </style>

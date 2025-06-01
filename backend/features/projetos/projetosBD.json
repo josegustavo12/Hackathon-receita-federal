@@ -1,1 +1,102 @@
-[]
+[
+  {
+    "Id": "1",
+    "Nome": "Experimento de Eletricidade Simples",
+    "Resumo": "Mostra como uma lâmpada pode ser acesa com uma bateria.",
+    "ComponentesNecessarios": "Fios, bateria 9V, lâmpada, fita isolante",
+    "NivelEscolaridade": "Ensino Fundamental",
+    "Manual": "manual_eletricidade.pdf",
+    "Autor": "João Silva",
+    "Data": "2024-02-15"
+  },
+  {
+    "Id": "2",
+    "Nome": "Vulcão de Bicarbonato",
+    "Resumo": "Simula uma erupção vulcânica com ingredientes simples.",
+    "ComponentesNecessarios": "Vinagre, bicarbonato de sódio, corante, garrafa PET",
+    "NivelEscolaridade": "Ensino Fundamental",
+    "Manual": "manual_vulcao.pdf",
+    "Autor": "Maria Oliveira",
+    "Data": "2023-11-03"
+  },
+  {
+    "Id": "3",
+    "Nome": "Circuito em Série e Paralelo",
+    "Resumo": "Demonstra a diferença entre ligações em série e paralelo.",
+    "ComponentesNecessarios": "Fios, lâmpadas, baterias, chave interruptora",
+    "NivelEscolaridade": "Ensino Médio",
+    "Manual": "manual_circuito.pdf",
+    "Autor": "Carlos Souza",
+    "Data": "2024-05-10"
+  },
+  {
+    "Id": "4",
+    "Nome": "Periscópio Caseiro",
+    "Resumo": "Criação de um periscópio com materiais recicláveis.",
+    "ComponentesNecessarios": "Espelhos, caixa de papelão, fita adesiva",
+    "NivelEscolaridade": "Ensino Fundamental",
+    "Manual": "manual_periscopio.pdf",
+    "Autor": "Ana Beatriz",
+    "Data": "2024-08-22"
+  },
+  {
+    "Id": "5",
+    "Nome": "Filtragem de Água",
+    "Resumo": "Mostra como a água pode ser filtrada com materiais naturais.",
+    "ComponentesNecessarios": "Areia, carvão, algodão, garrafa PET",
+    "NivelEscolaridade": "Ensino Fundamental",
+    "Manual": "manual_filtragem.pdf",
+    "Autor": "Ricardo Lima",
+    "Data": "2023-09-12"
+  },
+  {
+    "Id": "6",
+    "Nome": "Modelo de DNA",
+    "Resumo": "Montagem de uma hélice de DNA com materiais artesanais.",
+    "ComponentesNecessarios": "Arame, massinha, canudos coloridos",
+    "NivelEscolaridade": "Ensino Médio",
+    "Manual": "manual_dna.pdf",
+    "Autor": "Fernanda Costa",
+    "Data": "2024-01-29"
+  },
+  {
+    "Id": "7",
+    "Nome": "Fotossíntese na Prática",
+    "Resumo": "Demonstra o processo de fotossíntese com plantas aquáticas.",
+    "ComponentesNecessarios": "Elódea, frasco com água, luz solar",
+    "NivelEscolaridade": "Ensino Fundamental",
+    "Manual": "manual_fotossintese.pdf",
+    "Autor": "Lúcia Ferreira",
+    "Data": "2023-07-18"
+  },
+  {
+    "Id": "8",
+    "Nome": "Barômetro Caseiro",
+    "Resumo": "Constrói um instrumento para medir pressão atmosférica.",
+    "ComponentesNecessarios": "Pote de vidro, bexiga, canudo, régua",
+    "NivelEscolaridade": "Ensino Médio",
+    "Manual": "manual_barometro.pdf",
+    "Autor": "Rafael Mendes",
+    "Data": "2024-03-20"
+  },
+  {
+    "Id": "9",
+    "Nome": "Efeito Estufa em Miniatura",
+    "Resumo": "Simula o efeito estufa com garrafas e termômetros.",
+    "ComponentesNecessarios": "Garrafas PET, termômetro, lâmpada, fita adesiva",
+    "NivelEscolaridade": "Ensino Médio",
+    "Manual": "manual_efeito_estufa.pdf",
+    "Autor": "Patrícia Gomes",
+    "Data": "2023-10-05"
+  },
+  {
+    "Id": "10",
+    "Nome": "Relógio Solar",
+    "Resumo": "Mostra como medir o tempo com a sombra do sol.",
+    "ComponentesNecessarios": "Papelão, palito, régua, bússola",
+    "NivelEscolaridade": "Ensino Fundamental",
+    "Manual": "manual_relogio_solar.pdf",
+    "Autor": "Eduardo Rocha",
+    "Data": "2024-04-07"
+  }
+]

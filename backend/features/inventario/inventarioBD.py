@@ -15,8 +15,7 @@ class InventarioRequest(BaseModel):
     Sensores: str = ""
     Circuito: str = ""
     Outros: str = ""
-    Data: str
-
+  
     @classmethod
     def criar_com_dados(cls, nome: str, tipo: str, marca: str, modelo: str, quantidade: int):
         return cls(
@@ -26,7 +25,7 @@ class InventarioRequest(BaseModel):
             Marca=marca,
             Modelo=modelo,
             Quantidade=quantidade
-        )
+              )
     
 class InventarioInput(BaseModel):
     Nome: str

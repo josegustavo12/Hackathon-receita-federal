@@ -44,8 +44,7 @@ class InventarioService:
             Tipo=tipo,
             Marca=marca,
             Modelo=modelo,
-            Quantidade=quantidade,
-            Data=datetime.date.today()
+            Quantidade=quantidade
         )
         dados = cls.ler_banco()
         dados.append(novo_item)

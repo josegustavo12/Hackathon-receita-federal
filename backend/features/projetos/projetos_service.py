@@ -7,19 +7,19 @@ DB_PATH = os.path.join(os.path.dirname(__file__), "projetosBD.json")
 
 def ler_banco() -> List[ProjetoRequest]:
     if not os.path.exists(DB_PATH):
-        with open(DB_PATH, 'w') as f:
+        with open(DB_PATH, 'w', encoding='utf-8') as f:
             json.dump([], f)
 
     if os.path.getsize(DB_PATH) == 0:
-        with open(DB_PATH, 'w') as f:
+        with open(DB_PATH, 'w', encoding='utf-8') as f:
             json.dump([], f)
 
-    with open(DB_PATH, 'r') as f:
+    with open(DB_PATH, 'r', encoding='utf-8') as f:
         data = json.load(f)
         return [ProjetoRequest(**item) for item in data]
 
 def salvar_banco(dados: List[ProjetoRequest]):
-    with open(DB_PATH, 'w') as f:
+    with open(DB_PATH, 'w', encoding='utf-8') as f:
         json.dump([item.dict() for item in dados], f, indent=4)
 
 def criar_projeto(nome: str, resumo: str, componentes: str, escolaridade: str, manual: str, autor: str) -> ProjetoRequest:
