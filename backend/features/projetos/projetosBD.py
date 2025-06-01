@@ -12,7 +12,7 @@ class ProjetoRequest(BaseModel):
     Data: str
 
     @classmethod
-    def criar_com_dados(cls, nome: str, resumo: str, componentes: str, escolaridade: str, manual: str, autor: str):
+    def criar_com_dados(cls, nome: str, resumo: str, componentes: str, escolaridade: str, manual: str, autor: str, Data: str):
         return cls(
             Id=uuid4().hex,
             Nome=nome,
@@ -20,5 +20,6 @@ class ProjetoRequest(BaseModel):
             ComponentesNecessarios=componentes,
             NivelEscolaridade=escolaridade,
             Manual=manual,
-            Autor=autor
+            Autor=autor,
+            Data=Data
         )

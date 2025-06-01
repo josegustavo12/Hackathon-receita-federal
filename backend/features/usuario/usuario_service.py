@@ -48,7 +48,7 @@ class UsuarioService:
             cpf = UsuarioService.validar_cpf(request.CPF)
             email = request.email
             senha = request.senha
-            tipo = request.tipo
+            tipo = "Comum"
 
             if email in db:
                 raise HTTPException(status_code=400, detail="Usuário já existe")

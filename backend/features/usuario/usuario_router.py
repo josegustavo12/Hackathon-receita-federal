@@ -45,7 +45,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     }
 
 
-@router_private.post("/usuario/newuser", tags=["Login"])
+@router_public.post("/usuario/newuser", tags=["Login"])
 async def new_user(usuario: UsuarioRequest):
     try:
         with open(DB_USUARIO, "r") as f:
