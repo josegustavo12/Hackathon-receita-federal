@@ -12,6 +12,11 @@ const routes = [
     name: 'cards',
    component: () => import('../views/CardsView.vue')
   },
+  {
+  path: '/tutorial',
+  name: 'Tutorial',
+  component: () => import('@/views/Tutorial.vue')
+  },
 ]
 
 const router = createRouter({
