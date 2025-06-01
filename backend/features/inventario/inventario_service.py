@@ -3,7 +3,7 @@ import json
 from typing import List, Optional
 from uuid import uuid4
 from backend.features.inventario.inventarioBD import InventarioRequest
-
+import datetime
 
 class InventarioService:
     DB_PATH = os.path.join(os.path.dirname(__file__), "inventarioBD.json")
@@ -44,7 +44,8 @@ class InventarioService:
             Tipo=tipo,
             Marca=marca,
             Modelo=modelo,
-            Quantidade=quantidade
+            Quantidade=quantidade,
+            Data=datetime.date.today()
         )
         dados = cls.ler_banco()
         dados.append(novo_item)

@@ -39,9 +39,18 @@
         <div
           class="col d-flex justify-content-center"
           v-for="(item, index) in filteredCards"
-          :key="index"
+          :key="item.Id || index"
         >
-          <CardItem v-bind="item" @open="openModal" />
+          <!-- Passamos todas as props de item para CardItem -->
+          <CardItem
+            :type="item.Tipo"
+            :title="item.Nome"
+            :description="`${item.Marca} ${item.Modelo}`"
+            :quantidade="item.Quantidade"
+            :author="item.Author || ''"
+            :date="item.Date || ''"
+            @open="openModal(item)"
+          />
         </div>
       </div>
     </div>
@@ -50,20 +59,24 @@
     <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
       <div class="modal-content p-4 text-white">
         <h4>{{ modalData.title }}</h4>
-        <p class="mb-2" style="font-size: 1.1rem">{{ modalData.description }}</p>
+        <p class="mb-2" style="font-size: 1.1rem">
+          {{ modalData.description }}
+        </p>
         <p v-if="modalData.author">
           <strong>{{ modalData.author }}</strong><br />
           <small>{{ modalData.date }}</small>
         </p>
-        <button class="btn btn-light mt-3" @click="closeModal">Fechar</button>
+        <button class="btn btn-light mt-3" @click="closeModal">
+          Fechar
+        </button>
       </div>
     </div>
   </div>
 </template>
 
-
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import axios from 'axios'
 import CardItem from '../components/CardItem.vue'
 
 const selectedTab = ref('componente')
@@ -71,41 +84,76 @@ const searchTerm = ref('')
 const showModal = ref(false)
 const modalData = ref({})
 
-const cards = [
-  {
-    type: 'componente',
-    title: 'Botão Primário',
-    description: 'Um botão com cor padrão e bordas arredondadas.',
-    quantidade: 10
-  },
-  {
-    type: 'componente',
-    title: 'Input Texto',
-    description: 'Campo de texto simples com label flutuante.',
-    quantidade: 14
-  },
-  {
-    type: 'solucao',
-    title: 'Sistema de Login',
-    description: 'Login com autenticação via JWT.',
-    author: 'João Silva',
-    date: '30/05/2025',
-  },
-  {
-    type: 'solucao',
-    title: 'Painel de Admin',
-    description: 'Dashboard com gráficos e métricas.',
-    author: 'Maria Santos',
-    date: '28/05/2025',
-  },
-]
+// Agora `cards` será preenchido via GET axios
+const cards = ref([])
+
+async function fetchCards() {
+  try {
+    // Requisição GET para /inventario/ (baseURL configurada em main.js)
+    const response = await axios.get('/inventario/')
+    // `response.data` é um array de InventarioRequest
+    // Exemplo de InventarioRequest:
+    // {
+    //   Id: "7025d50ea5254df59821ece43e2b9cdf",
+    //   Nome: "Teclado",
+    //   Tipo: "Periférico",
+    //   Marca: "Logitech",
+    //   Modelo: "K120",
+    //   Quantidade: 5,
+    //   Bateria: "",
+    //   Coil: "",
+    //   Reservatorio: "",
+    //   Sensores: "",
+    //   Circuito: "",
+    //   Outros: "",
+    //   Data: "2025-06-01T14:23:00"
+    // }
+    cards.value = response.data
+  } catch (err) {
+    console.error('Erro ao buscar itens do inventário:', err)
+  }
+}
+
+onMounted(() => {
+  fetchCards()
+})
 
 const filteredCards = computed(() => {
-  return cards.filter((card) => {
-    const matchesTab = card.type === selectedTab.value
-    const matchesSearch = card.title.toLowerCase().includes(searchTerm.value.toLowerCase())
-    return matchesTab && matchesSearch
-  })
+  // Filtra pelo tipo “componente” ou “solucao” (ajuste conforme seu campo Tipo)
+  // e pelo título (campo Nome)
+  return cards.value
+    .filter((card) => {
+      // Se quiser mapear distintos tipos de abas, você pode usar:
+      // - Aba “componente” => card.Tipo === "Componente"
+      // - Aba “solucao”   => card.Tipo === "Solução"
+      // No exemplo original o Tipo vem como “Periférico”, “Outro”, etc.
+      // Ajuste essa lógica caso queira uma correspondência exata ou coloque 
+      // uma propriedade adicional no backend para designar tipo “componente” 
+      // ou “solucao”.
+      // Aqui, para continuar o exemplo, vamos assumir que:
+      //   Tipo "Componentes" contém a substring "Comp" e 
+      //   Tipo "Soluções" contém a substring "Sol".
+      const typeNormalized = card.Tipo.toLowerCase()
+      const matchesTab =
+        (selectedTab.value === 'componente' &&
+          typeNormalized.includes('comp')) ||
+        (selectedTab.value === 'solucao' &&
+          typeNormalized.includes('sol'))
+      const matchesSearch = card.Nome.toLowerCase().includes(searchTerm.value.toLowerCase())
+      return matchesTab && matchesSearch
+    })
+    .map((card) => {
+      // Mapeia os campos do InventarioRequest para as props que o CardItem espera
+      return {
+        Id: card.Id,
+        type: selectedTab.value,
+        title: card.Nome,
+        description: `${card.Marca} ${card.Modelo}`,
+        quantidade: card.Quantidade,
+        author: card.Author || '', // se não existir, deixa string vazia
+        date: card.Data || '', // se não existir, deixa string vazia
+      }
+    })
 })
 
 function openModal(data) {
@@ -117,7 +165,6 @@ function closeModal() {
   showModal.value = false
 }
 </script>
-
 
 <style scoped>
 .tab-button {

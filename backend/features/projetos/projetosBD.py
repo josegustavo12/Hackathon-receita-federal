@@ -9,6 +9,7 @@ class ProjetoRequest(BaseModel):
     NivelEscolaridade: str
     Manual: str
     Autor: str
+    Data: str
 
     @classmethod
     def criar_com_dados(cls, nome: str, resumo: str, componentes: str, escolaridade: str, manual: str, autor: str):

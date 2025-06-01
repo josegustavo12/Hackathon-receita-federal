@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from uuid import uuid4
+import datetime
 
 class InventarioRequest(BaseModel):
     Id: str
@@ -14,6 +15,7 @@ class InventarioRequest(BaseModel):
     Sensores: str = ""
     Circuito: str = ""
     Outros: str = ""
+    Data: str
 
     @classmethod
     def criar_com_dados(cls, nome: str, tipo: str, marca: str, modelo: str, quantidade: int):
