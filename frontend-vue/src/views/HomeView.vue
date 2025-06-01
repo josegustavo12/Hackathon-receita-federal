@@ -48,9 +48,6 @@
         <img src="@/assets/passo-a-passo.png" alt="passo a passo" class="imagem-apos-feature"  />
     </div>
     <div class="galeria">
-<<<<<<< Updated upstream
-      GALERIAAAAAAAAAAAAAAAAA
-=======
       <div class="container py-5">
         <h2 class="text-center text-white mb-5">Projetos</h2>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
@@ -90,7 +87,6 @@
 
         </div>
       </div>
->>>>>>> Stashed changes
     </div>
 
 
